@@ -20,13 +20,20 @@
 }
 
 - (IBAction)didClickButton1:(id)sender {
-    [LGCAlertView showAlertWithTitle:@"提示" message:@"Hello,World!" cancelTitle:@"Cancel" okTitle:@"Yes" parentVC:self completion:^(BOOL confirmed) {
+    [LGCAlertView showAlertWithTitle:@"提示" message:@"Hello,World!" detailText:@"大河向东流" cancelTitle:@"Cancel" okTitle:@"OK" parentVC:self completion:^(BOOL confirmed) {
         NSLog(@"%d", confirmed);
     }];
 }
 - (IBAction)didClickButton2:(id)sender {
-    [LGCAlertView showAlertWithTitle:nil message:nil cancelTitle:@"退出" okTitle:@"Yes" parentVC:self completion:^(BOOL confirmed) {
+    [LGCAlertView showAlertWithTitle:nil message:@"Hello,World!Hello,World!Hello,World!Hello,World!Hello,World!Hello,World!Hello,World!Hello,World!Hello,World!Hello,World!Hello,World!Hello,World!Hello,World!Hello,World!Hello,World!Hello,World!Hello,World!Hello,World!Hello,World!Hello,World!Hello,World!Hello,World!Hello,World!Hello,World!Hello,World!Hello,World!Hello,World!Hello,World!" detailText:nil cancelTitle:@"退出" okTitle:@"Yes" parentVC:self completion:^(BOOL confirmed) {
         NSLog(@"%d", confirmed);
+    }];
+}
+- (IBAction)didClickButton3:(id)sender {
+    [LGCAlertView showAlertWithTitle:nil message:@"大家好" cancelTitle:@"退出" okTitle:@"Yes" parentVC:self completion:^(BOOL confirmed) {
+        NSLog(@"%d", confirmed);
+    } noNoti:^(BOOL selected) {
+        NSLog(@"%d", selected);
     }];
 }
 @end

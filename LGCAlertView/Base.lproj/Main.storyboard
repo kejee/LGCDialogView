@@ -16,32 +16,36 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="Ot6-ls-oyF">
-                                <rect key="frame" x="103" y="178.5" width="208" height="539"/>
+                                <rect key="frame" x="50" y="383" width="314" height="130"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VZI-Q3-gSR">
-                                        <rect key="frame" x="0.0" y="0.0" width="208" height="259.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="314" height="30"/>
                                         <state key="normal" title="Button"/>
                                         <connections>
                                             <action selector="didClickButton1:" destination="BYZ-38-t0r" eventType="touchUpInside" id="HWl-ik-8RO"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jRx-BF-RBs">
-                                        <rect key="frame" x="0.0" y="279.5" width="208" height="259.5"/>
+                                        <rect key="frame" x="0.0" y="50" width="314" height="30"/>
                                         <state key="normal" title="Button"/>
                                         <connections>
                                             <action selector="didClickButton2:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Yfx-JS-RwX"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EdB-Tu-enL">
+                                        <rect key="frame" x="0.0" y="100" width="314" height="30"/>
+                                        <state key="normal" title="Button"/>
+                                        <connections>
+                                            <action selector="didClickButton3:" destination="BYZ-38-t0r" eventType="touchUpInside" id="UGg-FS-bw7"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="208" id="6uy-qE-Bey"/>
-                                    <constraint firstAttribute="height" constant="539" id="fmv-u2-2sY"/>
-                                </constraints>
                             </stackView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="Ot6-ls-oyF" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="2We-KA-FbC"/>
+                            <constraint firstItem="Ot6-ls-oyF" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="50" id="505-9q-yK2"/>
                             <constraint firstItem="Ot6-ls-oyF" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="5NI-tZ-IXs"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>

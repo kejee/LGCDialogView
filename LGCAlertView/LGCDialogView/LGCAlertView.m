@@ -15,38 +15,58 @@ typedef void(^clickEvent)(BOOL confirmed);
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *messageLabel;
+@property (weak, nonatomic) IBOutlet UILabel *detailLabel;
 @property (weak, nonatomic) IBOutlet UIButton *cancelButton;
 @property (weak, nonatomic) IBOutlet UIButton *yesButton;
 
-@property (nonatomic, copy) clickEvent Completion;
+//second
+@property (weak, nonatomic) IBOutlet UIButton *noNotiButton;
+
+@property (nonatomic, copy) NSArray *blockArray;
+
 @end
 
 @implementation LGCAlertView
 {
     NSString *_title;
     NSString *_message;
+    NSString *_detail;
     NSString *_cancelButtonTitle;
     NSString *_yesButtonTitle;
 }
 
-+ (void)showAlertWithTitle:(NSString *)title message:(NSString *)message cancelTitle:(NSString *)cancelTitle okTitle:(NSString *)okTitle parentVC:(UIViewController *)parentVC completion:(void (^)(BOOL))completion {
++ (void)showAlertWithTitle:(NSString *)title message:(NSString *)message detailText:(NSString *)detailText cancelTitle:(NSString *)cancelTitle okTitle:(NSString *)okTitle parentVC:(UIViewController *)parentVC completion:(void (^_Nonnull)(BOOL))completion {
     
-    LGCAlertView *alertView = [[LGCAlertView alloc]init];
+    [self showAlertWithTitle:title message:message detailText:detailText cancelTitle:cancelTitle okTitle:okTitle nilName:@"LGCAlertView" parentVC:parentVC BlockArray:@[completion]];
+}
+
++ (void)showAlertWithTitle:(NSString *)title message:(NSString *)message cancelTitle:(NSString *)cancelTitle okTitle:(NSString *)okTitle parentVC:(UIViewController*)parentVC completion:(void(^_Nonnull)(BOOL confirmed))completion noNoti:(void(^_Nonnull)(BOOL selected))noNotiBlock {
+    
+    [self showAlertWithTitle:title message:message detailText:nil cancelTitle:cancelTitle okTitle:okTitle nilName:@"LGCAlertViewSecond" parentVC:parentVC BlockArray:@[completion, noNotiBlock]];
+}
+
+
+
++ (void)showAlertWithTitle:(NSString *)title message:(NSString *)message  detailText:(NSString *)detailText cancelTitle:(NSString *)cancelTitle okTitle:(NSString *)okTitle nilName:(NSString *)nilName parentVC:(UIViewController *)parentVC BlockArray:(NSArray *)blockArray {
+    LGCAlertView *alertView = [[LGCAlertView alloc]initWithNibName:nilName bundle:nil];
     alertView.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
     alertView.modalPresentationStyle = UIModalPresentationOverFullScreen;
-    [alertView alertWithTitle:title message:message cancelTitle:cancelTitle okTitle:okTitle completion:completion];
+    [alertView alertWithTitle:title message:message detailText:detailText cancelTitle:cancelTitle okTitle:okTitle BlockArray:blockArray];
     [parentVC presentViewController:alertView animated:YES completion:nil];
 }
 
-- (void)alertWithTitle:(NSString *)title message:(NSString *)message cancelTitle:(NSString *)cancelTitle okTitle:(NSString *)okTitle completion:(void (^)(BOOL confirmed))completion{
+
+- (void)alertWithTitle:(NSString *)title message:(NSString *)message detailText:(NSString *)detailText cancelTitle:(NSString *)cancelTitle okTitle:(NSString *)okTitle BlockArray:(NSArray *)blockArray {//completion:(void (^)(BOOL confirmed))completion {
     
     _title = title;
     _message = message;
+    _detail = detailText;
     _cancelButtonTitle = cancelTitle;
     _yesButtonTitle = okTitle;
 
-    self.Completion = completion;
+    _blockArray = blockArray;
 }
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -54,17 +74,20 @@ typedef void(^clickEvent)(BOOL confirmed);
 }
 
 - (void)createUI {
-    [self setViewConstraintsWithTitle:_title message:_message cancelTitle:_cancelButtonTitle okTitle:_yesButtonTitle];
+    [self setViewConstraintsWithTitle:_title message:_message detailText:_detail cancelTitle:_cancelButtonTitle okTitle:_yesButtonTitle];
 }
 
 
--(void)setViewConstraintsWithTitle:(NSString *)title message:(NSString *)message cancelTitle:(NSString *)cancelTitle okTitle:(NSString *)okTitle {
+-(void)setViewConstraintsWithTitle:(NSString *)title message:(NSString *)message detailText:(NSString *)detailText cancelTitle:(NSString *)cancelTitle okTitle:(NSString *)okTitle {
     if (!title) {
         self.titleLabel.hidden = YES;
         self.imageView.hidden = YES;
     }
     if (!message) {
         self.messageLabel.hidden = YES;
+    }
+    if (!_detail) {
+        self.detailLabel.hidden = YES;
     }
     if (!cancelTitle) {
         self.cancelButton.hidden = YES;
@@ -74,17 +97,30 @@ typedef void(^clickEvent)(BOOL confirmed);
     }
     self.titleLabel.text = title;
     self.messageLabel.text = message;
+    self.detailLabel.text = detailText;
     [self.cancelButton setTitle:cancelTitle forState:UIControlStateNormal];
     [self.yesButton setTitle:okTitle forState:UIControlStateNormal];
 }
 
 -(IBAction)dismiss:(id)sender {
-    !self.Completion?:self.Completion(NO);
+    clickEvent block = _blockArray[0];
+    !block?:block(NO);
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 -(IBAction)didClickConfirmButton:(id)sender {
-    !self.Completion?:self.Completion(YES);
+    if (self.noNotiButton) {
+        clickEvent block2 = _blockArray[1];
+        !block2?:block2(self.noNotiButton.selected);
+    }
+    
+    clickEvent block = _blockArray[0];
+    !block?:block(YES);
+
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (IBAction)didClickNoNotiButton:(UIButton *)sender {
+    sender.selected = !sender.selected;
 }
 
 @end
